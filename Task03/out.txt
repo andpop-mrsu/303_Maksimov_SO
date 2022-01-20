@@ -1,0 +1,311 @@
+1. Составить список фильмов, имеющих хотя бы одну оценку. Список фильмов отсортировать по году выпуска и по названиям. В списке оставить первые 10 фильмов.
+--------------------------------------------------
+SELECT DISTINCT movies.id, movies.title, movies.year, movies.genres FROM movies JOIN ratings ON movies.id = ratings.movie_id ORDER BY year, title LIMIT 10;
+┌──────┬───────────────────────────────────────────────────┬──────┬──────────────────────────┐
+│  id  │                       title                       │ year │          genres          │
+├──────┼───────────────────────────────────────────────────┼──────┼──────────────────────────┤
+│ 6060 │ Babylon 5                                         │      │ Sci-Fi                   │
+│ 4744 │ Birth of a Nation, The                            │ 1915 │ Drama|War                │
+│ 5218 │ Immigrant, The                                    │ 1917 │ Comedy                   │
+│ 2485 │ Kid, The                                          │ 1921 │ Comedy|Drama             │
+│ 1037 │ Nosferatu (Nosferatu, eine Symphonie des Grauens) │ 1922 │ Horror                   │
+│ 2716 │ Woman of Paris, A                                 │ 1923 │ Drama                    │
+│ 4873 │ Thief of Bagdad, The                              │ 1924 │ Action|Adventure|Fantasy │
+│ 4679 │ Ben-Hur: A Tale of the Christ                     │ 1925 │ Adventure|Drama|Romance  │
+│ 2707 │ Gold Rush, The                                    │ 1925 │ Adventure|Comedy|Romance │
+│ 3259 │ Faust                                             │ 1926 │ Drama|Fantasy|Horror     │
+└──────┴───────────────────────────────────────────────────┴──────┴──────────────────────────┘
+ 
+2. Вывести список всех пользователей, фамилии (не имена!) которых начинаются на букву 'A'. Полученный список отсортировать по дате регистрации. В списке оставить первых 5 пользователей.
+--------------------------------------------------
+SELECT * FROM users WHERE name LIKE '%% A%%' ORDER BY register_date LIMIT 5;
+┌─────┬────────────────────┬───────────────────────────────┬────────┬───────────────┬───────────────┐
+│ id  │        name        │             email             │ gender │ register_date │  occupation   │
+├─────┼────────────────────┼───────────────────────────────┼────────┼───────────────┼───────────────┤
+│ 151 │ Callie Abshire     │ itzel.rohan@yahoo.com         │ female │ 2005-01-02    │ administrator │
+│ 749 │ Jena Abernathy     │ shanny36@hotmail.com          │ female │ 2006-06-10    │ other         │
+│ 817 │ Deron Altenwerth   │ lysanne.considine@hotmail.com │ male   │ 2007-05-16    │ student       │
+│ 539 │ Lilliana Abernathy │ demond65@schaden.biz          │ female │ 2007-10-25    │ administrator │
+│ 437 │ Quinton Anderson   │ stephany.hyatt@thiel.com      │ male   │ 2008-04-04    │ other         │
+└─────┴────────────────────┴───────────────────────────────┴────────┴───────────────┴───────────────┘
+ 
+3. Написать запрос, возвращающий информацию о рейтингах в более читаемом формате: имя и фамилия эксперта, название фильма, год выпуска, оценка и дата оценки в формате ГГГГ-ММ-ДД. Отсортировать данные по имени эксперта, затем названию фильма и оценке. В списке оставить первые 50 записей.
+--------------------------------------------------
+SELECT users.name, movies.title, movies.year, rating, DATE(timestamp, 'unixepoch') FROM ratings JOIN users ON users.id == user_id JOIN movies ON movies.id == movie_id ORDER BY users.name, movies.title, rating LIMIT 50;
+┌──────────────────┬──────────────────────────────────────────────────────────┬──────┬────────┬──────────────────────────────┐
+│       name       │                          title                           │ year │ rating │ DATE(timestamp, 'unixepoch') │
+├──────────────────┼──────────────────────────────────────────────────────────┼──────┼────────┼──────────────────────────────┤
+│ Adell Gusikowski │ 101 Reykjavik (101 Reykjavík)                            │ 2000 │ 3.0    │ 2015-11-05                   │
+│ Adell Gusikowski │ 187 (One Eight Seven)                                    │ 1997 │ 4.0    │ 2015-11-15                   │
+│ Adell Gusikowski │ 20,000 Days on Earth                                     │ 2014 │ 4.5    │ 2015-11-14                   │
+│ Adell Gusikowski │ 20,000 Leagues Under the Sea                             │ 1954 │ 5.0    │ 2015-11-15                   │
+│ Adell Gusikowski │ 42 Up                                                    │ 1998 │ 3.5    │ 2015-11-03                   │
+│ Adell Gusikowski │ A Man Called Blade                                       │ 1977 │ 3.5    │ 2015-11-03                   │
+│ Adell Gusikowski │ AVP: Alien vs. Predator                                  │ 2004 │ 3.0    │ 2015-11-15                   │
+│ Adell Gusikowski │ Accused, The                                             │ 1988 │ 3.5    │ 2015-11-03                   │
+│ Adell Gusikowski │ Addams Family Values                                     │ 1993 │ 3.5    │ 2015-11-03                   │
+│ Adell Gusikowski │ Adventures of Huck Finn, The                             │ 1993 │ 5.0    │ 2015-11-22                   │
+│ Adell Gusikowski │ Affair to Remember, An                                   │ 1957 │ 4.5    │ 2015-11-22                   │
+│ Adell Gusikowski │ Airborne                                                 │ 1993 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Alexander Nevsky (Aleksandr Nevskiy)                     │ 1938 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Aliens                                                   │ 1986 │ 4.0    │ 2015-11-15                   │
+│ Adell Gusikowski │ All About My Mother (Todo sobre mi madre)                │ 1999 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ All the Right Moves                                      │ 1983 │ 3.5    │ 2015-11-03                   │
+│ Adell Gusikowski │ Amelie (Fabuleux destin d'Amélie Poulain, Le)            │ 2001 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Anastasia                                                │ 1997 │ 3.5    │ 2015-11-22                   │
+│ Adell Gusikowski │ Anatomy of a Murder                                      │ 1959 │ 5.0    │ 2015-11-13                   │
+│ Adell Gusikowski │ And Your Mother Too (Y tu mamá también)                  │ 2001 │ 3.5    │ 2015-11-03                   │
+│ Adell Gusikowski │ Angus, Thongs and Perfect Snogging                       │ 2008 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Animal Farm                                              │ 1954 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Another Gay Movie                                        │ 2006 │ 4.5    │ 2015-11-03                   │
+│ Adell Gusikowski │ Arachnophobia                                            │ 1990 │ 5.0    │ 2015-11-22                   │
+│ Adell Gusikowski │ Aristocrats, The                                         │ 2005 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Art of the Steal, The                                    │ 2013 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Au Hasard Balthazar                                      │ 1966 │ 3.0    │ 2015-11-06                   │
+│ Adell Gusikowski │ August Rush                                              │ 2007 │ 4.0    │ 2015-11-15                   │
+│ Adell Gusikowski │ Bad Asses on the Bayou                                   │ 2015 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Balance                                                  │ 1989 │ 3.5    │ 2015-11-06                   │
+│ Adell Gusikowski │ Ballistic: Ecks vs. Sever                                │ 2002 │ 3.5    │ 2015-11-03                   │
+│ Adell Gusikowski │ Bank Dick, The                                           │ 1940 │ 4.5    │ 2015-11-15                   │
+│ Adell Gusikowski │ Bat*21                                                   │ 1988 │ 4.5    │ 2015-11-13                   │
+│ Adell Gusikowski │ Batman                                                   │ 1966 │ 3.5    │ 2015-11-03                   │
+│ Adell Gusikowski │ Batman: The Dark Knight Returns, Part 1                  │ 2012 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Battle Royale 2: Requiem (Batoru rowaiaru II: Chinkonka) │ 2003 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Beaches                                                  │ 1988 │ 5.0    │ 2015-11-15                   │
+│ Adell Gusikowski │ Ben X                                                    │ 2007 │ 4.5    │ 2015-11-03                   │
+│ Adell Gusikowski │ Best Offer, The (Migliore offerta, La)                   │ 2013 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Best of Youth, The (La meglio gioventù)                  │ 2003 │ 4.5    │ 2015-11-15                   │
+│ Adell Gusikowski │ Between Your Legs (Entre las piernas)                    │ 1999 │ 5.0    │ 2018-05-13                   │
+│ Adell Gusikowski │ Beverly Hills Cop                                        │ 1984 │ 4.0    │ 2015-11-15                   │
+│ Adell Gusikowski │ Big Green, The                                           │ 1995 │ 5.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Big Top Pee-Wee                                          │ 1988 │ 4.5    │ 2015-11-13                   │
+│ Adell Gusikowski │ Bill Burr: You People Are All the Same                   │ 2012 │ 4.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Billy Bathgate                                           │ 1991 │ 3.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Birdy                                                    │ 1984 │ 3.0    │ 2015-11-06                   │
+│ Adell Gusikowski │ Bitter Moon                                              │ 1992 │ 5.0    │ 2015-11-03                   │
+│ Adell Gusikowski │ Black Dahlia, The                                        │ 2006 │ 4.5    │ 2015-11-27                   │
+│ Adell Gusikowski │ Bleeder                                                  │ 1999 │ 4.0    │ 2015-11-03                   │
+└──────────────────┴──────────────────────────────────────────────────────────┴──────┴────────┴──────────────────────────────┘
+ 
+4. Вывести список фильмов с указанием тегов, которые были им присвоены пользователями. Сортировать по году выпуска, затем по названию фильма, затем по тегу. В списке оставить первые 40 записей.
+--------------------------------------------------
+SELECT movies.*, tags.tag FROM movies JOIN tags ON movies.id == tags.movie_id ORDER BY movies.year, movies.title, tags.tag LIMIT 40;
+┌──────┬───────────────────────────────────────────────────────────┬──────┬────────────────────────────────┬────────────────────────┐
+│  id  │                           title                           │ year │             genres             │          tag           │
+├──────┼───────────────────────────────────────────────────────────┼──────┼────────────────────────────────┼────────────────────────┤
+│ 2716 │ Woman of Paris, A                                         │ 1923 │ Drama                          │ ghosts                 │
+│ 2801 │ Battleship Potemkin                                       │ 1925 │ Drama|War                      │ gambling               │
+│ 5404 │ Freshman, The                                             │ 1925 │ Comedy                         │ books                  │
+│ 3259 │ Faust                                                     │ 1926 │ Drama|Fantasy|Horror           │ Ireland                │
+│ 6188 │ Secrets of a Soul (Geheimnisse einer Seele)               │ 1926 │ Drama                          │ Will Ferrell           │
+│ 6188 │ Secrets of a Soul (Geheimnisse einer Seele)               │ 1926 │ Drama                          │ comedy                 │
+│ 4678 │ Passion of Joan of Arc, The (Passion de Jeanne d'Arc, La) │ 1928 │ Drama                          │ television             │
+│ 1407 │ Broadway Melody, The                                      │ 1929 │ Musical                        │ slasher                │
+│ 1407 │ Broadway Melody, The                                      │ 1929 │ Musical                        │ spoof                  │
+│ 1408 │ All Quiet on the Western Front                            │ 1930 │ Action|Drama|War               │ Hawkeye                │
+│ 1408 │ All Quiet on the Western Front                            │ 1930 │ Action|Drama|War               │ James Fennimore Cooper │
+│ 5135 │ Maltese Falcon, The (a.k.a. Dangerous Female)             │ 1931 │ Mystery                        │ India                  │
+│ 3948 │ À nous la liberté (Freedom for Us)                        │ 1931 │ Comedy|Musical                 │ Robert De Niro         │
+│ 3948 │ À nous la liberté (Freedom for Us)                        │ 1931 │ Comedy|Musical                 │ comedy                 │
+│ 1984 │ Mummy, The                                                │ 1932 │ Horror|Romance                 │ halloween              │
+│ 956  │ Duck Soup                                                 │ 1933 │ Comedy|Musical|War             │ adoption               │
+│ 1029 │ Bride of Frankenstein, The (Bride of Frankenstein)        │ 1935 │ Drama|Horror|Sci-Fi            │ Disney                 │
+│ 1411 │ Mutiny on the Bounty                                      │ 1935 │ Adventure|Drama                │ Shakespeare            │
+│ 4677 │ Tale of Two Cities, A                                     │ 1935 │ Drama                          │ dogs                   │
+│ 728  │ My Man Godfrey                                            │ 1936 │ Comedy|Romance                 │ In Netflix queue       │
+│ 2579 │ Good Earth, The                                           │ 1937 │ Drama                          │ Christopher Nolan      │
+│ 2579 │ Good Earth, The                                           │ 1937 │ Drama                          │ Twist Ending           │
+│ 2579 │ Good Earth, The                                           │ 1937 │ Drama                          │ black and white        │
+│ 2579 │ Good Earth, The                                           │ 1937 │ Drama                          │ black and white        │
+│ 2579 │ Good Earth, The                                           │ 1937 │ Drama                          │ directorial debut      │
+│ 2579 │ Good Earth, The                                           │ 1937 │ Drama                          │ mindfuck               │
+│ 2579 │ Good Earth, The                                           │ 1937 │ Drama                          │ not linear             │
+│ 1413 │ Life of Emile Zola, The                                   │ 1937 │ Drama                          │ Conan                  │
+│ 2421 │ Star Is Born, A                                           │ 1937 │ Drama                          │ martial arts           │
+│ 736  │ Bringing Up Baby                                          │ 1938 │ Comedy|Romance                 │ Disaster               │
+│ 838  │ Christmas Carol, A                                        │ 1938 │ Children|Drama|Fantasy         │ Jane Austen            │
+│ 4881 │ Goodbye, Mr. Chips                                        │ 1939 │ Drama|Romance                  │ Coen Brothers          │
+│ 6020 │ All This, and Heaven Too                                  │ 1940 │ Drama|Romance                  │ class                  │
+│ 4970 │ Pride and Prejudice                                       │ 1940 │ Comedy|Drama|Romance           │ nightclub              │
+│ 4970 │ Pride and Prejudice                                       │ 1940 │ Comedy|Drama|Romance           │ singers                │
+│ 4835 │ High Sierra                                               │ 1941 │ Crime|Drama|Film-Noir|Thriller │ Loretta Lynn           │
+│ 1653 │ Mr. & Mrs. Smith                                          │ 1941 │ Comedy|Romance                 │ future                 │
+│ 1653 │ Mr. & Mrs. Smith                                          │ 1941 │ Comedy|Romance                 │ intelligent            │
+│ 1653 │ Mr. & Mrs. Smith                                          │ 1941 │ Comedy|Romance                 │ thought-provoking      │
+│ 1995 │ Wolf Man, The                                             │ 1941 │ Drama|Fantasy|Horror           │ ghosts                 │
+└──────┴───────────────────────────────────────────────────────────┴──────┴────────────────────────────────┴────────────────────────┘
+ 
+5. Вывести список самых свежих фильмов. В список должны войти все фильмы последнего года выпуска, имеющиеся в базе данных. Запрос должен быть универсальным, не зависящим от исходных данных (нужный год выпуска должен определяться в запросе, а не жестко задаваться).
+--------------------------------------------------
+SELECT * FROM movies WHERE year == (SELECT MAX(year) FROM movies);
+┌──────┬────────────────────────────────────┬──────┬────────────────────────────────────────┐
+│  id  │               title                │ year │                 genres                 │
+├──────┼────────────────────────────────────┼──────┼────────────────────────────────────────┤
+│ 8694 │ Avengers: Infinity War - Part I    │ 2018 │ Action|Adventure|Sci-Fi                │
+│ 9669 │ Annihilation                       │ 2018 │ Adventure|Mystery|Sci-Fi|Thriller      │
+│ 9675 │ The Commuter                       │ 2018 │ Crime|Drama|Mystery|Thriller           │
+│ 9679 │ Insidious: The Last Key            │ 2018 │ Horror|Mystery|Thriller                │
+│ 9682 │ Game Night                         │ 2018 │ Action|Comedy|Crime|Horror             │
+│ 9683 │ Maze Runner: The Death Cure        │ 2018 │ Action|Mystery|Sci-Fi|Thriller         │
+│ 9684 │ Isle of Dogs                       │ 2018 │ Animation|Comedy                       │
+│ 9685 │ The Clapper                        │ 2018 │ Comedy                                 │
+│ 9686 │ Tom Segura: Disgraceful            │ 2018 │ Comedy                                 │
+│ 9687 │ When We First Met                  │ 2018 │ Comedy                                 │
+│ 9690 │ The Cloverfield Paradox            │ 2018 │ Horror|Mystery|Sci-Fi|Thriller         │
+│ 9693 │ Tomb Raider                        │ 2018 │ Action|Adventure|Fantasy               │
+│ 9696 │ Fred Armisen: Standup for Drummers │ 2018 │ Comedy                                 │
+│ 9697 │ Death Wish                         │ 2018 │ Action|Crime|Drama|Thriller            │
+│ 9698 │ A Wrinkle in Time                  │ 2018 │ Adventure|Children|Fantasy|Sci-Fi      │
+│ 9699 │ Love, Simon                        │ 2018 │ Comedy|Drama                           │
+│ 9700 │ A Quiet Place                      │ 2018 │ Drama|Horror|Thriller                  │
+│ 9701 │ Alpha                              │ 2018 │ Adventure|Thriller                     │
+│ 9702 │ I Kill Giants                      │ 2018 │ Drama|Fantasy|Thriller                 │
+│ 9704 │ Game Over, Man!                    │ 2018 │ Action|Comedy                          │
+│ 9705 │ Blockers                           │ 2018 │ Comedy                                 │
+│ 9706 │ Pacific Rim: Uprising              │ 2018 │ Action|Fantasy|Sci-Fi                  │
+│ 9707 │ Rampage                            │ 2018 │ Action|Adventure|Sci-Fi                │
+│ 9708 │ Jurassic World: Fallen Kingdom     │ 2018 │ Action|Adventure|Drama|Sci-Fi|Thriller │
+│ 9709 │ Incredibles 2                      │ 2018 │ Action|Adventure|Animation|Children    │
+│ 9710 │ Deadpool 2                         │ 2018 │ Action|Comedy|Sci-Fi                   │
+│ 9711 │ Solo: A Star Wars Story            │ 2018 │ Action|Adventure|Children|Sci-Fi       │
+│ 9712 │ Won't You Be My Neighbor?          │ 2018 │ Documentary                            │
+│ 9713 │ Sorry to Bother You                │ 2018 │ Comedy|Fantasy|Sci-Fi                  │
+│ 9714 │ Ant-Man and the Wasp               │ 2018 │ Action|Adventure|Comedy|Fantasy|Sci-Fi │
+│ 9715 │ Dogman                             │ 2018 │ Crime|Drama                            │
+│ 9716 │ Mamma Mia: Here We Go Again!       │ 2018 │ Comedy|Romance                         │
+│ 9717 │ Tag                                │ 2018 │ Comedy                                 │
+│ 9718 │ The Man Who Killed Don Quixote     │ 2018 │ Adventure|Comedy|Fantasy               │
+│ 9719 │ Boundaries                         │ 2018 │ Comedy|Drama                           │
+│ 9720 │ Spiral                             │ 2018 │ Documentary                            │
+│ 9721 │ Mission: Impossible - Fallout      │ 2018 │ Action|Adventure|Thriller              │
+│ 9722 │ SuperFly                           │ 2018 │ Action|Crime|Thriller                  │
+│ 9724 │ BlacKkKlansman                     │ 2018 │ Comedy|Crime|Drama                     │
+│ 9725 │ The Darkest Minds                  │ 2018 │ Sci-Fi|Thriller                        │
+│ 9741 │ Bungo Stray Dogs: Dead Apple       │ 2018 │ Action|Animation                       │
+└──────┴────────────────────────────────────┴──────┴────────────────────────────────────────┘
+ 
+6. Найти все комедии, выпущенные после 2000 года, которые понравились мужчинам (оценка не ниже 4.5). Для каждого фильма в этом списке вывести название, год выпуска и количество таких оценок. Результат отсортировать по году выпуска и названию фильма.
+--------------------------------------------------
+SELECT movies.title, movies.year, COUNT(ratings.id) FROM movies JOIN ratings ON movies.id == ratings.movie_id JOIN users ON ratings.user_id == users.id WHERE movies.year > 2000 AND users.gender == 'male' AND ratings.rating >= 4.5 AND movies.genres LIKE '%%Comedy%%' GROUP BY movies.title ORDER BY movies.year, movies.title;
+┌───────────────────────────────────────────────────────┬──────┬───────────────────┐
+│                         title                         │ year │ COUNT(ratings.id) │
+├───────────────────────────────────────────────────────┼──────┼───────────────────┤
+│ Double Take                                           │ 2001 │ 1                 │
+│ Jay and Silent Bob Strike Back                        │ 2001 │ 2                 │
+│ Joe Dirt                                              │ 2001 │ 1                 │
+│ Last Kiss, The (Ultimo bacio, L')                     │ 2001 │ 2                 │
+│ Monkeybone                                            │ 2001 │ 1                 │
+│ My First Mister                                       │ 2001 │ 1                 │
+│ Out Cold                                              │ 2001 │ 9                 │
+│ Rat Race                                              │ 2001 │ 1                 │
+│ Rush Hour 2                                           │ 2001 │ 1                 │
+│ Sidewalks of New York                                 │ 2001 │ 2                 │
+│ Spun                                                  │ 2001 │ 1                 │
+│ Tomcats                                               │ 2001 │ 4                 │
+│ Zoolander                                             │ 2001 │ 1                 │
+│ Ali G Indahouse                                       │ 2002 │ 1                 │
+│ Bad Company                                           │ 2002 │ 1                 │
+│ Big Trouble                                           │ 2002 │ 1                 │
+│ Comedian                                              │ 2002 │ 1                 │
+│ Crossroads                                            │ 2002 │ 1                 │
+│ Igby Goes Down                                        │ 2002 │ 1                 │
+│ Pinocchio                                             │ 2002 │ 1                 │
+│ Punch-Drunk Love                                      │ 2002 │ 2                 │
+│ Welcome to Collinwood                                 │ 2002 │ 5                 │
+│ 11:14                                                 │ 2003 │ 2                 │
+│ Chasing Papi (a.k.a. Papi Chulo)                      │ 2003 │ 1                 │
+│ Love Actually                                         │ 2003 │ 1                 │
+│ Old School                                            │ 2003 │ 2                 │
+│ Remember Me (Ricordati di me)                         │ 2003 │ 3                 │
+│ After the Sunset                                      │ 2004 │ 1                 │
+│ Agent Cody Banks 2: Destination London                │ 2004 │ 1                 │
+│ Big Bounce, The                                       │ 2004 │ 1                 │
+│ Cinderella Story, A                                   │ 2004 │ 1                 │
+│ Angel-A                                               │ 2005 │ 1                 │
+│ Aristocrats, The                                      │ 2005 │ 10                │
+│ Brice Man, The (Brice de Nice)                        │ 2005 │ 4                 │
+│ Broken Flowers                                        │ 2005 │ 1                 │
+│ Fuck                                                  │ 2005 │ 1                 │
+│ Madagascar                                            │ 2005 │ 3                 │
+│ Pacifier, The                                         │ 2005 │ 4                 │
+│ Thumbsucker                                           │ 2005 │ 5                 │
+│ Wallace & Gromit in The Curse of the Were-Rabbit      │ 2005 │ 1                 │
+│ Wedding Date, The                                     │ 2005 │ 2                 │
+│ Another Gay Movie                                     │ 2006 │ 1                 │
+│ OH in Ohio, The                                       │ 2006 │ 1                 │
+│ 99 francs                                             │ 2007 │ 1                 │
+│ Ex Drummer                                            │ 2007 │ 1                 │
+│ Nanny Diaries, The                                    │ 2007 │ 1                 │
+│ What Love Is                                          │ 2007 │ 5                 │
+│ 27 Dresses                                            │ 2008 │ 2                 │
+│ Angus, Thongs and Perfect Snogging                    │ 2008 │ 6                 │
+│ Choke                                                 │ 2008 │ 1                 │
+│ Sisterhood of the Traveling Pants 2, The              │ 2008 │ 1                 │
+│ Strictly Sexual                                       │ 2008 │ 1                 │
+│ You Don't Mess with the Zohan                         │ 2008 │ 1                 │
+│ Zombie Strippers!                                     │ 2008 │ 1                 │
+│ City Island                                           │ 2009 │ 1                 │
+│ Couples Retreat                                       │ 2009 │ 1                 │
+│ Invention of Lying, The                               │ 2009 │ 9                 │
+│ Bounty Hunter, The                                    │ 2010 │ 2                 │
+│ Family Guy Presents: It's a Trap                      │ 2010 │ 1                 │
+│ Hatchet II                                            │ 2010 │ 1                 │
+│ Rare Exports: A Christmas Tale (Rare Exports)         │ 2010 │ 1                 │
+│ Shrek Forever After (a.k.a. Shrek: The Final Chapter) │ 2010 │ 4                 │
+│ The Hairdresser                                       │ 2010 │ 1                 │
+│ Robot & Frank                                         │ 2012 │ 1                 │
+│ This Means War                                        │ 2012 │ 1                 │
+│ Da geht noch was!                                     │ 2013 │ 2                 │
+│ Kick-Ass 2                                            │ 2013 │ 1                 │
+│ A Merry Friggin' Christmas                            │ 2014 │ 1                 │
+│ About Last Night                                      │ 2014 │ 1                 │
+│ Feast                                                 │ 2014 │ 1                 │
+│ Reality                                               │ 2014 │ 2                 │
+│ Tammy                                                 │ 2014 │ 1                 │
+│ That Awkward Moment                                   │ 2014 │ 1                 │
+│ The Interview                                         │ 2014 │ 5                 │
+│ Two Night Stand                                       │ 2014 │ 1                 │
+│ Vacation                                              │ 2015 │ 4                 │
+└───────────────────────────────────────────────────────┴──────┴───────────────────┘
+ 
+7. Провести анализ занятий (профессий) пользователей - вывести количество пользователей для каждого рода занятий. Найти самую распространенную и самую редкую профессию посетитетей сайта.
+--------------------------------------------------
+SELECT occupation, COUNT(id) FROM users GROUP BY occupation;
+┌───────────────┬───────────┐
+│  occupation   │ COUNT(id) │
+├───────────────┼───────────┤
+│ administrator │ 79        │
+│ artist        │ 28        │
+│ doctor        │ 7         │
+│ educator      │ 95        │
+│ engineer      │ 67        │
+│ entertainment │ 18        │
+│ executive     │ 32        │
+│ healthcare    │ 16        │
+│ homemaker     │ 7         │
+│ lawyer        │ 12        │
+│ librarian     │ 51        │
+│ marketing     │ 26        │
+│ none          │ 9         │
+│ other         │ 105       │
+│ programmer    │ 66        │
+│ retired       │ 14        │
+│ salesman      │ 12        │
+│ scientist     │ 31        │
+│ student       │ 196       │
+│ technician    │ 27        │
+│ writer        │ 45        │
+└───────────────┴───────────┘
+SELECT occupation, MAX(number) FROM (SELECT occupation, COUNT(id) as number FROM users GROUP BY occupation);
+┌────────────┬─────────────┐
+│ occupation │ MAX(number) │
+├────────────┼─────────────┤
+│ student    │ 196         │
+└────────────┴─────────────┘
+SELECT occupation, MIN(number) FROM (SELECT occupation, COUNT(id) as number FROM users GROUP BY occupation);
+┌────────────┬─────────────┐
+│ occupation │ MIN(number) │
+├────────────┼─────────────┤
+│ doctor     │ 7           │
+└────────────┴─────────────┘
+ 
